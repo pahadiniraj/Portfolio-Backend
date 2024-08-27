@@ -50,8 +50,11 @@ app.get(
   })
 );
 
-
 // User router
+
+import userRouter from "./src/routes/user.routes.js";
+
+app.use("/api/users", userRouter);
 
 // auth router
 
