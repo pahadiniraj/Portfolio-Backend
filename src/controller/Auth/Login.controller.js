@@ -46,9 +46,10 @@ const loginUser = asyncHandler(async (req, res) => {
           accessToken,
           refreshToken,
         },
-        `${loggedInUser.firstName},Welcome to my portfolio`
+        `${loggedInUser.firstName},Welcome to my portfolio. Now you can like,comment and share my post`
       )
     );
 });
 
 export { loginUser };
+

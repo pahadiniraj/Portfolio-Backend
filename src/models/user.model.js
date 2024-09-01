@@ -21,6 +21,10 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    jobTitle: {
+      type: String,
+      trim: true,
+    },
     password: {
       type: String,
       // Only required if the user signs up locally (not with OAuth)
@@ -85,7 +89,6 @@ userSchema.methods.generateAccessToken = function () {
     }
   );
 };
-
 
 // Generate a refresh token
 userSchema.methods.generateRefreshToken = function () {
