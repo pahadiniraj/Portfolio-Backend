@@ -14,7 +14,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(
       404,
-      "Looks like your account went on vacation. Register to bring it back!"
+      "Looks like you're new here. Please create an account to continue"
     );
   }
 
