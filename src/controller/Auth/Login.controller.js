@@ -12,13 +12,19 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "User not Found");
+    throw new ApiError(
+      404,
+      "Looks like your account went on vacation. Register to bring it back!"
+    );
   }
 
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid Credentials");
+    throw new ApiError(
+      401,
+      "Your password seems to be playing hide and seek. Let’s find it together, try again!"
+    );
   }
 
   const { refreshToken, accessToken } = await generateAccessAndRefreshToken(
@@ -46,10 +52,9 @@ const loginUser = asyncHandler(async (req, res) => {
           accessToken,
           refreshToken,
         },
-        `${loggedInUser.firstName},Welcome to my portfolio. Now you can like,comment and share my post`
+        `Hey ${loggedInUser.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
       )
     );
 });
 
 export { loginUser };
-

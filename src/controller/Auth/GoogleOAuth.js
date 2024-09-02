@@ -51,7 +51,7 @@ const googleLogin = asyncHandler(async (req, res) => {
     return res.status(200).json({
       user,
       tokens,
-      message: "Welcome! You can now like, comment, and share posts.",
+      message: `Hey ${user.firstName} ! Welcome to my corner of the internet. You can now like, comment, and share posts.`,
     });
   } catch (error) {
     console.error(error);
