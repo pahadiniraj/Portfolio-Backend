@@ -35,7 +35,6 @@ const userSchema = new Schema(
     googleId: {
       type: String, // Store Google OAuth ID
       unique: true,
-      sparse: true, // Allows multiple users without a googleId
     },
     avatar: {
       type: String,
@@ -56,6 +55,10 @@ const userSchema = new Schema(
     },
     resetPasswordExpires: {
       type: Date,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {

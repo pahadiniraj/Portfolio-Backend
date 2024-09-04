@@ -1,8 +1,8 @@
-import transporter from "../controller/Email/emailConfig.js";
-import { EmailVerification } from "../models/emailVerification.model.js";
-import { ApiError } from "./ApiError.js";
+import transporter from "../../utils/emailConfig.js";
+import { EmailVerification } from "../../models/emailVerification.model.js";
+import { ApiError } from "../../utils/ApiError.js";
 
-const otp = async (req, user) => {
+const generateOtpAndSendMail = async (req, user) => {
   console.log("user id in otp " + user);
   const otp = Math.floor(1000 + Math.random() * 9000); // Corrected OTP generation
 
@@ -144,4 +144,4 @@ const otp = async (req, user) => {
   return otp;
 };
 
-export default otp;
+export default generateOtpAndSendMail;
