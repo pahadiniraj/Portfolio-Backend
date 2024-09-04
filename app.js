@@ -1,13 +1,18 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dotenv, { config } from "dotenv";
 
 const app = express();
+
+dotenv.config({
+  path: "./.env",
+});
 
 app.use(
   cors({
     credentials: true,
-    origin: `${process.env.CROSS_ORIGIN}`, // Replace with your frontend URL
+    origin: process.env.CROSS_ORIGIN, // Replace with your frontend URL
   })
 );
 

@@ -42,7 +42,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(
@@ -50,7 +49,6 @@ const loginUser = asyncHandler(async (req, res) => {
         {
           user: loggedInUser,
           accessToken,
-          refreshToken,
         },
         `Hey ${loggedInUser.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
       )

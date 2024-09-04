@@ -39,17 +39,25 @@ const googleLogin = asyncHandler(async (req, res) => {
 
     const { _id } = user;
 
-    const tokens = jwt.sign(
-      { _id, email },
+    // const tokens = jwt.sign(
+    //   { _id, email },
 
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-      }
-    );
+    //   process.env.ACCESS_TOKEN_SECRET,
+    //   {
+    //     expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+    //   }
+    // );
+
+    const { accessToken: tokens, refreshToken } =
+      await generateAccessAndRefreshToken(user._id);
+
+    console.log("RefreshToken:", tokens);
+    console.log(refreshToken);
+
+    // console.log(tokens);
+    console.log(user);
 
     return res.status(200).json({
-      user,
       tokens,
       message: `Hey ${user.firstName} ! Welcome to my corner of the internet. You can now like, comment, and share posts.`,
     });

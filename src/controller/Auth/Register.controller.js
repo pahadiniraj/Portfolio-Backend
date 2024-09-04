@@ -3,6 +3,7 @@ import { ApiError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/AsyncHandler.js";
 import { uploadOnCloudinary } from "../../utils/cloudinary.js";
+import otp from "../../utils/otp.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   console.log("Request Files:", req.files);
@@ -52,6 +53,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
   console.log(user);
 
+  otp(req, user);
+
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
@@ -73,4 +76,3 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 export { registerUser };
-
