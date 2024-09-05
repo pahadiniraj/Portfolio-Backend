@@ -3,6 +3,7 @@ import { generateAccessAndRefreshToken } from "../../utils/AccessAndRefresh.js";
 import { ApiError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/AsyncHandler.js";
+import setTokenCookies from "../../utils/setTokenCookies.js";
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -18,6 +19,10 @@ const loginUser = asyncHandler(async (req, res) => {
     );
   }
 
+  if (!user.isVerified) {
+    throw new ApiError(400, "Buddy you are not verified yet.");
+  }
+
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
@@ -27,12 +32,19 @@ const loginUser = asyncHandler(async (req, res) => {
     );
   }
 
-  const { refreshToken, accessToken } = await generateAccessAndRefreshToken(
-    user._id
-  );
+  // generate access token and set in cookie
 
-  const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
+  const { refreshToken, accessToken, accessTokenExp, refreshTokenExp } =
+    await generateAccessAndRefreshToken(user);
+
+  // set cookie
+
+  setTokenCookies(
+    res,
+    refreshToken,
+    accessToken,
+    accessTokenExp,
+    refreshTokenExp
   );
 
   const options = {
@@ -40,19 +52,25 @@ const loginUser = asyncHandler(async (req, res) => {
     secure: true,
   };
 
-  return res
-    .status(200)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          user: loggedInUser,
-          accessToken,
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        user: {
+          id: user._id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
         },
-        `Hey ${loggedInUser.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
-      )
-    );
+        roles: user.roles,
+        accessToken,
+        refreshToken,
+        accessTokenExp,
+        isVerifies: user.isVerified,
+      },
+      `Hey ${user.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
+    )
+  );
 });
 
 export { loginUser };
