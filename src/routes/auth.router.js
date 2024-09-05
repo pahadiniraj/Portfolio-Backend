@@ -9,6 +9,7 @@ import { loginUser } from "../controller/Auth/Login.controller.js";
 import { googleLogin } from "../controller/Auth/GoogleOAuth.js";
 import { verifyOtpSchema } from "../helper/validator/OtpSchema.js";
 import { verifyEmailWithOtp } from "../controller/Email/verifyEmail.controller.js";
+import { newTokens } from "../controller/Auth/newTokens.controller.js";
 
 const router = Router();
 
@@ -20,9 +21,11 @@ router.route("/login").post(validateRequest(loginSchema), loginUser);
 router.route("/google").get(googleLogin);
 
 // otp auth
-
 router
   .route("/verify-email")
   .post(validateRequest(verifyOtpSchema), verifyEmailWithOtp);
+
+// token refresh
+router.route("/refresh-token").post(newTokens);
 
 export default router;

@@ -17,7 +17,7 @@ const userRefreshTokenSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: "5d",
+    expires: 5 * 24 * 60 * 60, // 5 days in seconds
   },
 });
 

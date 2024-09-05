@@ -1,8 +1,8 @@
 const setTokenCookies = (
   res,
-  refreshToken,
   accessToken,
   newAccessTokenExp,
+  refreshToken,
   newRefreshTokenExp
 ) => {
   const accessTokenMaxAge =
@@ -10,20 +10,24 @@ const setTokenCookies = (
   const refreshTokenMaxAge =
     (newRefreshTokenExp - Math.floor(Date.now() / 1000)) * 1000;
 
+  if (accessTokenMaxAge <= 0 || refreshTokenMaxAge <= 0) {
+    throw new Error("Token expiration time is invalid");
+  }
+
   // set cookie for access token
 
   res.cookie("accessToken", accessToken, {
-    maxAge: accessTokenMaxAge,
     httpOnly: true,
     secure: true,
+    maxAge: accessTokenMaxAge,
   });
 
   // set cookie for refresh token
 
   res.cookie("refreshToken", refreshToken, {
-    maxAge: refreshTokenMaxAge,
     httpOnly: true,
     secure: true,
+    maxAge: refreshTokenMaxAge,
   });
 };
 

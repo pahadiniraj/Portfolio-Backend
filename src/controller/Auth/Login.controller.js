@@ -41,16 +41,11 @@ const loginUser = asyncHandler(async (req, res) => {
 
   setTokenCookies(
     res,
-    refreshToken,
     accessToken,
     accessTokenExp,
+    refreshToken,
     refreshTokenExp
   );
-
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
 
   return res.status(200).json(
     new ApiResponse(
