@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv, { config } from "dotenv";
+import "./src/utils/passport-jwt-stragegy.js";
 
 const app = express();
 
@@ -37,5 +38,11 @@ app.use("/api/users", userRouter);
 
 import authRouter from "./src/routes/auth.router.js";
 app.use("/api/auth", authRouter);
+
+// admin router
+
+import adminRouter from "./src/routes/admin.router.js";
+
+app.use("/api/admin", adminRouter);
 
 export { app };

@@ -4,7 +4,8 @@ import { User } from "../../models/user.model.js";
 import { generateAccessAndRefreshToken } from "../../utils/AccessAndRefresh.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { oauth2client } from "../../utils/googleConfig.js";
-import jwt from "jsonwebtoken";
+import setTokenCookies from "../../utils/setTokenCookies.js";
+import { ApiError } from "../../utils/ApiError.js";
 
 const googleLogin = asyncHandler(async (req, res) => {
   const { code } = req.query;
@@ -37,8 +38,6 @@ const googleLogin = asyncHandler(async (req, res) => {
       });
     }
 
-    const { _id } = user;
-
     // const tokens = jwt.sign(
     //   { _id, email },
 
@@ -48,22 +47,39 @@ const googleLogin = asyncHandler(async (req, res) => {
     //   }
     // );
 
-    const { accessToken: tokens, refreshToken } =
-      await generateAccessAndRefreshToken(user._id);
+    const { accessToken, accessTokenExp, refreshToken, refreshTokenExp } =
+      await generateAccessAndRefreshToken(user);
 
-    console.log("RefreshToken:", tokens);
-    console.log(refreshToken);
+    setTokenCookies(
+      res,
+      accessToken,
+      accessTokenExp,
+      refreshToken,
+      refreshTokenExp
+    );
 
-    // console.log(tokens);
-    console.log(user);
-
-    return res.status(200).json({
-      tokens,
-      message: `Hey ${user.firstName} ! Welcome to my corner of the internet. You can now like, comment, and share posts.`,
-    });
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          user: {
+            id: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          },
+          roles: user.roles,
+          accessToken,
+          refreshToken,
+          accessTokenExp,
+          isVerifies: user.isVerified,
+        },
+        `Hey ${user.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
+      )
+    );
   } catch (error) {
     console.error(error);
-    return res.status(500).json(new ApiResponse(500, null, "Server error"));
+    throw new ApiError(400, "Error while logging in");
   }
 });
 
