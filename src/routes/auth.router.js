@@ -9,6 +9,12 @@ import { loginUser } from "../controller/Auth/Login.controller.js";
 import { googleLogin } from "../controller/Auth/GoogleOAuth.js";
 import { verifyOtpSchema } from "../helper/validator/OtpSchema.js";
 import { verifyEmailWithOtp } from "../controller/Email/verifyEmail.controller.js";
+import { passwordResetEmail } from "../controller/Email/passwordResetEmail.controller.js";
+import { passwordReset } from "../controller/Email/passwordReset.controller.js";
+import {
+  passwordResetEmailLinkSchema,
+  passwordResetSchema,
+} from "../helper/validator/passwordReset.js";
 
 const router = Router();
 
@@ -24,6 +30,12 @@ router
   .route("/verify-email")
   .post(validateRequest(verifyOtpSchema), verifyEmailWithOtp);
 
-// token refresh
+// reset password
+router
+  .route("/reset-password-link")
+  .post(validateRequest(passwordResetEmailLinkSchema), passwordResetEmail);
+router
+  .route("/reset-password-confirm/:id/:token")
+  .post(validateRequest(passwordResetSchema), passwordReset);
 
 export default router;

@@ -5,6 +5,7 @@ import { getUserProfile } from "../controller/User/getUserProfile.controller.js"
 import passport from "passport";
 import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
 import { logoutUser } from "../controller/User/logoutUser.js";
+import { changeUserPassword } from "../controller/User/changeUserPassword.controller.js";
 
 const router = Router();
 
@@ -30,5 +31,14 @@ router
     passport.authenticate("jwt", { session: false }),
     logoutUser
   );
+
+router
+  .route("/change-password")
+  .post(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    changeUserPassword
+  );
+
 
 export default router;
