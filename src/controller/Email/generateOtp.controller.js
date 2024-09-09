@@ -11,7 +11,7 @@ const generateOtpAndSendMail = async (req, user) => {
     otp: otp,
   });
 
-  const otpLink = `${process.env.FRONTEND_HOST}/account/verify-email`;
+  const otpLink = `${process.env.FRONTEND_HOST}/verify-email`;
 
   await transporter.sendMail({
     from: process.env.EMAIL_FROM,
@@ -118,7 +118,7 @@ const generateOtpAndSendMail = async (req, user) => {
                 website and paste it to finish your registration.</strong
               >
             </p>
-            <a href="${process.env.FRONTEND_HOST}" class="button"
+            <a href="${otpLink}" class="button"
               >🔐 Complete Registration</a
             >
             <p>

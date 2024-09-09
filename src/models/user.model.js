@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 const userSchema = new Schema(
   {
@@ -8,11 +7,15 @@ const userSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      set: (value) =>
+        value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
     },
     lastName: {
       type: String,
       required: true,
       trim: true,
+      set: (value) =>
+        value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
     },
     email: {
       type: String,
@@ -24,6 +27,7 @@ const userSchema = new Schema(
     jobTitle: {
       type: String,
       trim: true,
+      set: (value) => value.toUpperCase(),
     },
     password: {
       type: String,

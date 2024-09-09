@@ -8,13 +8,14 @@ import {
 import { loginUser } from "../controller/Auth/Login.controller.js";
 import { googleLogin } from "../controller/Auth/GoogleOAuth.js";
 import { verifyOtpSchema } from "../helper/validator/OtpSchema.js";
-import { verifyEmailWithOtp } from "../controller/Email/verifyEmail.controller.js";
 import { passwordResetEmail } from "../controller/Email/passwordResetEmail.controller.js";
 import { passwordReset } from "../controller/Email/passwordReset.controller.js";
 import {
   passwordResetEmailLinkSchema,
   passwordResetSchema,
 } from "../helper/validator/passwordReset.js";
+import generateOtpAndSendMail from "../controller/Email/generateOtp.controller.js";
+import { VerifyOtp } from "../controller/Auth/verifyOtp.controller.js";
 
 const router = Router();
 
@@ -26,9 +27,7 @@ router.route("/login").post(validateRequest(loginSchema), loginUser);
 router.route("/google").get(googleLogin);
 
 // otp auth
-router
-  .route("/verify-email")
-  .post(validateRequest(verifyOtpSchema), verifyEmailWithOtp);
+router.route("/verify-otp").post(validateRequest(verifyOtpSchema), VerifyOtp);
 
 // reset password
 router

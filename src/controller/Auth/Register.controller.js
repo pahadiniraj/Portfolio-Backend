@@ -62,13 +62,19 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   console.log("User Created");
 
+  res.cookie("email", user.email, {
+    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+    maxAge: 5 * 60 * 1000, // 5-minute expiration (can be customized)
+    secure: true,
+  });
+
   return res
     .status(200)
     .json(
       new ApiResponse(
         200,
         createdUser,
-        `${createdUser.firstName}, you have been registered in my Portfolio account Feel free to Like and Comment  `
+        `${createdUser.firstName},a verification code has been sent to your email. Please enter the code provided and complete the registration process. `
       )
     );
 });

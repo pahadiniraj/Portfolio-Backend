@@ -3,10 +3,15 @@ import { User } from "../../models/user.model.js";
 import { ApiError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/AsyncHandler.js";
-import generateOtpAndSendMail from "./generateOtp.controller.js";
+import generateOtpAndSendMail from "../Email/generateOtp.controller.js";
 
-const verifyEmailWithOtp = asyncHandler(async (req, res) => {
-  const { email, otp } = req.body;
+const VerifyOtp = asyncHandler(async (req, res) => {
+  const email = req.cookies.email;
+  const { otp } = req.body;
+
+  if (!email) {
+    throw new ApiError(401, "Token hase been expired ");
+  }
 
   // Find user by email
   const userExist = await User.findOne({ email });
@@ -72,4 +77,4 @@ const verifyEmailWithOtp = asyncHandler(async (req, res) => {
     );
 });
 
-export { verifyEmailWithOtp };
+export { VerifyOtp };
