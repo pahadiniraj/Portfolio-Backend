@@ -25,20 +25,11 @@ router
   );
 
 router
-  .route("/logout")
-  .post(
-    accessTokenAutoRefresh,
-    passport.authenticate("jwt", { session: false }),
-    logoutUser
-  );
-
-router
   .route("/change-password")
   .post(
     accessTokenAutoRefresh,
     passport.authenticate("jwt", { session: false }),
     changeUserPassword
   );
-
 
 export default router;

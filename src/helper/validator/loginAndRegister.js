@@ -42,6 +42,11 @@ const registerSchema = Joi.object({
         "Password is a required field unless you sign up with Google",
     }),
 
+  confirmPassword: Joi.string().valid(Joi.ref("password")).required().messages({
+    "any.only": "Confirm password must match the password",
+    "any.required": "Confirm password is a required field",
+  }),
+
   googleId: Joi.string().optional().messages({
     "string.base": "Google ID should be a type of text",
   }),
@@ -66,7 +71,11 @@ const registerSchema = Joi.object({
   resetPasswordExpires: Joi.date().optional().messages({
     "date.base": "Reset Password Expires should be a valid date",
   }),
-});
+  acceptTermAndCondition: Joi.boolean().valid(true).required().messages({
+    "any.only": "You must accept the terms and conditions",
+    "any.required": "Accepting the terms and conditions is required",
+  }),
+}).with("password", "confirmPassword"); // Ensure confirmPassword is present with password
 
 const loginSchema = Joi.object({
   email: Joi.string()

@@ -6,7 +6,7 @@ import { uploadOnCloudinary } from "../../utils/cloudinary.js";
 import generateOtpAndSendMail from "../Email/generateOtp.controller.js";
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
 
   const existedUser = await User.findOne({
     email,
@@ -49,7 +49,6 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImage: coverImageUrl || "",
   });
 
-  console.log(user);
 
   generateOtpAndSendMail(req, user);
 
@@ -64,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   res.cookie("email", user.email, {
     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-    maxAge: 5 * 60 * 1000, // 5-minute expiration (can be customized)
+    maxAge: 15 * 60 * 1000, // 15-minute expiration (can be customized)
     secure: true,
   });
 
@@ -80,3 +79,4 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 export { registerUser };
+

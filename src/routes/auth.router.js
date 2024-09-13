@@ -16,6 +16,9 @@ import {
 } from "../helper/validator/passwordReset.js";
 import generateOtpAndSendMail from "../controller/Email/generateOtp.controller.js";
 import { VerifyOtp } from "../controller/Auth/verifyOtp.controller.js";
+import { logoutUser } from "../controller/User/logoutUser.js";
+import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -25,6 +28,14 @@ router.route("/login").post(validateRequest(loginSchema), loginUser);
 // google authentication
 
 router.route("/google").get(googleLogin);
+
+router
+  .route("/logout")
+  .post(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    logoutUser
+  );
 
 // otp auth
 router.route("/verify-otp").post(validateRequest(verifyOtpSchema), VerifyOtp);
