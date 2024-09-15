@@ -10,6 +10,7 @@ dotenv.config({
   path: "./.env",
 });
 
+app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
@@ -26,7 +27,8 @@ app.use(
 );
 
 app.use(express.static("public"));
-app.use(cookieParser());
+
+checkAndDeleteUnverifiedUsers();
 
 // User router
 
@@ -42,6 +44,7 @@ app.use("/api/auth", authRouter);
 // admin router
 
 import adminRouter from "./src/routes/admin.router.js";
+import checkAndDeleteUnverifiedUsers from "./src/utils/cornJob.js";
 
 app.use("/api/admin", adminRouter);
 

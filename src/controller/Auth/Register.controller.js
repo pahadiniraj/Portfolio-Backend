@@ -49,7 +49,6 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImage: coverImageUrl || "",
   });
 
-
   generateOtpAndSendMail(req, user);
 
   const createdUser = await User.findById(user._id).select(
@@ -64,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
   res.cookie("email", user.email, {
     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
     maxAge: 15 * 60 * 1000, // 15-minute expiration (can be customized)
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
   });
 
   return res
@@ -79,4 +78,3 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 export { registerUser };
-

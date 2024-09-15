@@ -7,6 +7,7 @@ import generateOtpAndSendMail from "../Email/generateOtp.controller.js";
 
 const VerifyOtp = asyncHandler(async (req, res) => {
   const email = req.cookies.email;
+
   const { otp } = req.body;
 
   if (!email) {
@@ -61,7 +62,7 @@ const VerifyOtp = asyncHandler(async (req, res) => {
 
   // Mark user as verified
   userExist.isVerified = true;
-  await userExist.save();
+  const user = await userExist.save();
 
   // Delete all OTP entries for this user
   await EmailVerification.deleteMany({ userId: userExist._id });
@@ -72,6 +73,7 @@ const VerifyOtp = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
+        user,
         `Welcome ${userExist.firstName}, your email has been verified successfully.`
       )
     );
