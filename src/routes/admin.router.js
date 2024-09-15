@@ -1,7 +1,7 @@
 import { Router } from "express";
 import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
 import passport from "passport";
-import { getUsers } from "../controller/User/User.controller.js";
+import { getUsers } from "../controller/Admin/User.controller.js";
 
 const router = Router();
 
@@ -14,4 +14,3 @@ router
   );
 
 export default router;
-

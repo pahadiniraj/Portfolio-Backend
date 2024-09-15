@@ -27,17 +27,22 @@ const userSchema = new Schema(
     jobTitle: {
       type: String,
       trim: true,
-      set: (value) => value.toUpperCase(),
+      set: (value) => {
+        if (value && value.trim() !== "") {
+          return value.toUpperCase();
+        }
+        return value;
+      },
+      default: null,
     },
     password: {
       type: String,
-      // Only required if the user signs up locally (not with OAuth)
       required: function () {
         return !this.googleId;
       },
     },
     googleId: {
-      type: String, // Store Google OAuth ID
+      type: String,
       unique: true,
     },
     avatar: {
@@ -46,14 +51,8 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"], // Correct enum usage for roles
+      enum: ["user", "admin"],
       default: "user",
-    },
-    resetPasswordToken: {
-      type: String,
-    },
-    resetPasswordExpires: {
-      type: Date,
     },
     isVerified: {
       type: Boolean,
@@ -63,6 +62,16 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       default: null,
+    },
+    // Add social media links as optional fields
+    socialLinks: {
+      instagram: { type: String, default: null, trim: true },
+      linkedin: { type: String, default: null, trim: true },
+      facebook: { type: String, default: null, trim: true },
+      twitter: { type: String, default: null, trim: true },
+      personalWebsite: { type: String, default: null, trim: true },
+      github: { type: String, default: null, trim: true },
+      youtube: { type: String, default: null, trim: true },
     },
   },
   {
@@ -81,7 +90,5 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
-// Generate an access token
 
 export const User = mongoose.model("User", userSchema);

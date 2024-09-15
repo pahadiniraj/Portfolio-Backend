@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyToken } from "../middleware/authMiddleware.js";
-import { getUsers } from "../controller/User/User.controller.js";
+import { getUsers } from "../controller/Admin/User.controller.js";
 import { getUserProfile } from "../controller/User/getUserProfile.controller.js";
 import passport from "passport";
 import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
