@@ -4,8 +4,8 @@ import { getUsers } from "../controller/Admin/User.controller.js";
 import { getUserProfile } from "../controller/User/getUserProfile.controller.js";
 import passport from "passport";
 import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
-import { logoutUser } from "../controller/User/logoutUser.js";
 import { changeUserPassword } from "../controller/User/changeUserPassword.controller.js";
+import { updateUserProfile } from "../controller/User/updateUserProfile.controller.js";
 
 const router = Router();
 
@@ -30,6 +30,14 @@ router
     accessTokenAutoRefresh,
     passport.authenticate("jwt", { session: false }),
     changeUserPassword
+  );
+
+router
+  .route("/update-user-profile")
+  .post(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    updateUserProfile
   );
 
 export default router;

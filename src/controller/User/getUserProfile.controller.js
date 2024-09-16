@@ -7,6 +7,17 @@ const getUserProfile = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
+  // Destructure social links from the user's `socialLinks` object
+  const {
+    instagram,
+    twitter,
+    linkedin,
+    github,
+    personalWebsite,
+    facebook,
+    youtube,
+  } = req.user.socialLinks || {}; // Use optional chaining to avoid errors if socialLinks is null/undefined
+
   // Send user data as response
   res.status(200).json({
     success: true,
@@ -15,19 +26,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
       firstName: req.user.firstName,
       lastName: req.user.lastName,
       email: req.user.email,
-      isVerified: req.user.isVerified,
       jobTitle: req.user.jobTitle,
-      role: req.user.role,
       bio: req.user.bio,
       avatar: req.user.avatar,
       createdAt: req.user.createdAt,
       updatedAt: req.user.updatedAt,
-      instagram: req.user.instagram,
-      twitter: req.user.twitter,
-      linkedin: req.user.linkedin,
-      github: req.user.github,
-      personalWebsite: req.user.personalWebsite,
-      facebook: req.user.facebook,
+      instagram,
+      twitter,
+      linkedin,
+      github,
+      personalWebsite,
+      facebook,
+      youtube,
     },
   });
 });
