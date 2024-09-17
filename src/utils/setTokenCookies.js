@@ -3,7 +3,9 @@ const setTokenCookies = (
   accessToken,
   newAccessTokenExp,
   refreshToken,
-  newRefreshTokenExp
+  newRefreshTokenExp,
+  isVerified,
+  role
 ) => {
   const accessTokenMaxAge =
     (newAccessTokenExp - Math.floor(Date.now() / 1000)) * 1000;
@@ -27,6 +29,17 @@ const setTokenCookies = (
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
+    maxAge: refreshTokenMaxAge,
+  });
+
+  res.cookie("isVerified", isVerified, {
+    httpOnly: false,
+    secure: false,
+    maxAge: refreshTokenMaxAge,
+  });
+  res.cookie("role", role, {
+    httpOnly: false,
+    secure: false,
     maxAge: refreshTokenMaxAge,
   });
 };

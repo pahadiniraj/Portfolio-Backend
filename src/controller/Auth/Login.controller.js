@@ -44,7 +44,8 @@ const loginUser = asyncHandler(async (req, res) => {
     accessToken,
     accessTokenExp,
     refreshToken,
-    refreshTokenExp
+    refreshTokenExp,
+    user.isVerified
   );
 
   return res.status(200).json(
@@ -61,7 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
         accessToken,
         refreshToken,
         accessTokenExp,
-        isVerifies: user.isVerified,
+        isVerified: user.isVerified,
       },
       `Hey ${user.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
     )

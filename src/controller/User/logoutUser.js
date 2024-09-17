@@ -5,7 +5,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   // Clear cookies
   res.clearCookie("refreshToken");
   res.clearCookie("accessToken");
-  res.clearCookie("is_auth");
+  res.clearCookie("isVerified");
+  res.clearCookie("role");
   // console.log(res.clearCookie("is_auth"));
 
   const userName = req.user?.firstName || "You";

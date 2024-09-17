@@ -47,7 +47,14 @@ const changeUserPassword = asyncHandler(async (req, res) => {
   });
 
   // Send success response
-  res.status(200).json(new ApiResponse(200, "Password updated successfully"));
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        `${user.firstName} your password has been updated successfully`
+      )
+    );
 });
 
 export { changeUserPassword };

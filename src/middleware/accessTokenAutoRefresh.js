@@ -45,6 +45,8 @@ const accessTokenAutoRefresh = async (req, res, next) => {
         accessTokenExp: newAccessTokenExp,
         refreshToken: newRefreshToken,
         refreshTokenExp: newRefreshTokenExp,
+        isVerified,
+        role,
       } = await generateAccessAndRefreshToken(user);
 
       setTokenCookies(
@@ -52,7 +54,9 @@ const accessTokenAutoRefresh = async (req, res, next) => {
         newAccessToken,
         newAccessTokenExp,
         newRefreshToken,
-        newRefreshTokenExp
+        newRefreshTokenExp,
+        isVerified,
+        role
       );
 
       req.headers["authorization"] = `Bearer ${newAccessToken}`;

@@ -4,23 +4,21 @@ import jwt from "jsonwebtoken";
 
 const generateAccessAndRefreshToken = async (user) => {
   try {
-    const payload = { _id: user._id, roles: user.roles };
-
-    // generated accessToken with exp time
+    const payload = {
+      _id: user._id,
+      roles: user.roles,
+    };
 
     const accessTokenExp = Math.floor(Date.now() / 1000) + 100;
     const accessToken = jwt.sign(
       { ...payload, exp: accessTokenExp },
       process.env.ACCESS_TOKEN_SECRET
-      // {expiresIn:"10s"}  alternative way
     );
 
-    // generated refreshToken with exp time
     const refreshTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5;
     const refreshToken = jwt.sign(
       { ...payload, exp: refreshTokenExp },
       process.env.REFRESH_TOKEN_SECRET
-      // {expiresIn:"10s"}  alternative way
     );
 
     const userRefreshToken = await UserRefreshToken.findOne({
@@ -41,6 +39,8 @@ const generateAccessAndRefreshToken = async (user) => {
       accessTokenExp,
       refreshToken,
       refreshTokenExp,
+      isVerified: user.isVerified,
+      role: user.role,
     });
   } catch (error) {
     throw new ApiError(
