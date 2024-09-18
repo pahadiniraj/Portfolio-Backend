@@ -4,16 +4,16 @@ import jwt from "jsonwebtoken";
 
 const verifyRefreshToken = async (oldRefreshToken) => {
   const privateKey = process.env.REFRESH_TOKEN_SECRET;
-  console.log(privateKey);
   try {
     // Find the refreshToken in the database
     const userRefreshToken = await UserRefreshToken.findOne({
       token: oldRefreshToken,
     });
 
+    console.log(userRefreshToken);
     // If refresh token is not found, reject with an error
     if (!userRefreshToken) {
-      throw new ApiError(400, "Invalid refresh token");
+      throw new ApiError(400, "Invalid refresh token what");
     }
 
     // Verify the refresh token

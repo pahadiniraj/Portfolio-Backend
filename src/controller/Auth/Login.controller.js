@@ -45,7 +45,8 @@ const loginUser = asyncHandler(async (req, res) => {
     accessTokenExp,
     refreshToken,
     refreshTokenExp,
-    user.isVerified
+    user.isVerified,
+    user.role
   );
 
   return res.status(200).json(

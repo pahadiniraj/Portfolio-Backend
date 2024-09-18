@@ -15,24 +15,46 @@ const generateAccessAndRefreshToken = async (user) => {
       process.env.ACCESS_TOKEN_SECRET
     );
 
-    const refreshTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5;
-    const refreshToken = jwt.sign(
-      { ...payload, exp: refreshTokenExp },
-      process.env.REFRESH_TOKEN_SECRET
-    );
+    // Check if refresh token exists
+    let refreshToken, refreshTokenExp;
 
     const userRefreshToken = await UserRefreshToken.findOne({
       userId: user._id,
     });
 
     if (userRefreshToken) {
-      await UserRefreshToken.findOneAndDelete({ userId: user._id });
-    }
+      // Verify if the refresh token has expired
+      const decoded = jwt.decode(userRefreshToken.token);
 
-    await new UserRefreshToken({
-      userId: user._id,
-      token: refreshToken,
-    }).save();
+      if (decoded && decoded.exp > Math.floor(Date.now() / 1000)) {
+        // If token is still valid, reuse it
+        refreshToken = userRefreshToken.token;
+        refreshTokenExp = decoded.exp;
+      } else {
+        // If token has expired, generate a new one
+        refreshTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5; // 5 days expiry
+        refreshToken = jwt.sign(
+          { ...payload, exp: refreshTokenExp },
+          process.env.REFRESH_TOKEN_SECRET
+        );
+        // Update the token in the database
+        userRefreshToken.token = refreshToken;
+        await userRefreshToken.save();
+      }
+    } else {
+      // If no token found, create a new one
+      refreshTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5; // 5 days expiry
+      refreshToken = jwt.sign(
+        { ...payload, exp: refreshTokenExp },
+        process.env.REFRESH_TOKEN_SECRET
+      );
+
+      // Save new refresh token to the database
+      await new UserRefreshToken({
+        userId: user._id,
+        token: refreshToken,
+      }).save();
+    }
 
     return Promise.resolve({
       accessToken,
@@ -45,7 +67,7 @@ const generateAccessAndRefreshToken = async (user) => {
   } catch (error) {
     throw new ApiError(
       500,
-      "Somthing went wrong while generating access and refresh token "
+      "Something went wrong while generating access and refresh token"
     );
   }
 };
