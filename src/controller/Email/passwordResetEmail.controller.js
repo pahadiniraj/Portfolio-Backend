@@ -21,7 +21,7 @@ const passwordResetEmail = asyncHandler(async (req, res) => {
   const secret = user._id + process.env.ACCESS_TOKEN_SECRET;
   const token = jwt.sign({ userId: user._id }, secret, { expiresIn: "15m" });
 
-  const resetLink = `${process.env.FRONTEND_HOST}/account/reset-password-confirm/${user._id}/${token}`;
+  const resetLink = `${process.env.FRONTEND_HOST}/reset-password-confirm/${user._id}/${token}`;
 
   await transporter.sendMail({
     from: process.env.EMAIL_FORM,
