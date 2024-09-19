@@ -58,7 +58,6 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!createdUser) {
     throw new ApiError(500, "Somthing went wrong while registering user");
   }
-  console.log("User Created");
 
   res.cookie("email", user.email, {
     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie

@@ -48,4 +48,9 @@ import checkAndDeleteUnverifiedUsers from "./src/utils/cornJob.js";
 
 app.use("/api/admin", adminRouter);
 
+// contact router
+
+import contactRoute from "./src/routes/contact.router.js";
+app.use("/api/contact", contactRoute);
+
 export { app };

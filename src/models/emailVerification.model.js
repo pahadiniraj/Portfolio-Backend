@@ -13,7 +13,7 @@ const emailVerificationSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 10 * 60, // 10 minutes in seconds
+    expires: 10 * 60,
   },
 });
 
