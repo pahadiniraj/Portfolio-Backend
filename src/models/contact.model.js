@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
+const statusEnum = ["unseen", "inprogress", "completed", "rejected"];
+
 const contactSchema = new Schema(
   {
     fullName: {
@@ -21,10 +23,10 @@ const contactSchema = new Schema(
       type: String,
       required: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      expires: 2 * 24 * 60 * 60,
+    status: {
+      type: String,
+      enum: statusEnum,
+      default: "unseen", // Initial status when created
     },
   },
   {

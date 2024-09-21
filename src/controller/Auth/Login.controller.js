@@ -8,9 +8,7 @@ import setTokenCookies from "../../utils/setTokenCookies.js";
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({
-    email,
-  });
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw new ApiError(
@@ -32,13 +30,11 @@ const loginUser = asyncHandler(async (req, res) => {
     );
   }
 
-  // generate access token and set in cookie
-
+  // Generate access token and refresh token
   const { refreshToken, accessToken, accessTokenExp, refreshTokenExp } =
     await generateAccessAndRefreshToken(user);
 
-  // set cookie
-
+  // Set cookies
   setTokenCookies(
     res,
     accessToken,
@@ -48,6 +44,12 @@ const loginUser = asyncHandler(async (req, res) => {
     user.isVerified,
     user.role
   );
+
+  // Custom message based on email
+  const customMessage =
+    email === "sharma12345niraj@gmail.com"
+      ? "Welcome back, BOSS ! "
+      : `Hey ${user.firstName}! Welcome to my corner of the internet! Now you can like, comment, and share my post.`;
 
   return res.status(200).json(
     new ApiResponse(
@@ -65,7 +67,7 @@ const loginUser = asyncHandler(async (req, res) => {
         accessTokenExp,
         isVerified: user.isVerified,
       },
-      `Hey ${user.firstName} ! Welcome to my corner of the internet! Now you can like,comment and share my post.`
+      customMessage
     )
   );
 });

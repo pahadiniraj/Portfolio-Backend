@@ -25,11 +25,10 @@ const createContactSchema = Joi.object({
     "any.required": "Subject is a required field",
   }),
 
-  message: Joi.string().trim().min(10).max(500).required().messages({
+  message: Joi.string().trim().min(10).required().messages({
     "string.base": "Message should be a type of text",
     "string.empty": "Message cannot be empty",
     "string.min": "Message should have a minimum length of {#limit}",
-    "string.max": "Message should have a maximum length of {#limit}",
     "any.required": "Message is a required field",
   }),
 });
