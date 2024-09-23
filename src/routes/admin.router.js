@@ -6,6 +6,7 @@ import { adminMiddleware } from "../middleware/adminMiddleware.js";
 import { UpdateContact } from "../controller/Admin/Contact/UpdateContact.controller.js";
 import { DeleteContact } from "../controller/Admin/Contact/DeleteContact.controller.js";
 import { getUsers } from "../controller/Admin/User/User.controller.js";
+import { DeleteAllUsers } from "../controller/Admin/User/DeleteAllUser.js";
 
 const router = Router();
 
@@ -43,6 +44,15 @@ router
     passport.authenticate("jwt", { session: false }),
     adminMiddleware,
     DeleteContact
+  );
+
+router
+  .route("/delete-all-users")
+  .delete(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    adminMiddleware,
+    DeleteAllUsers
   );
 
 export default router;
