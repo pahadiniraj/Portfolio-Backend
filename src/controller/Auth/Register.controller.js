@@ -60,8 +60,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   res.cookie("email", user.email, {
-    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-    maxAge: 15 * 60 * 1000, // 15-minute expiration (can be customized)
+    httpOnly: true,
+    maxAge: 15 * 60 * 1000,
     secure: process.env.NODE_ENV === "production",
   });
 
