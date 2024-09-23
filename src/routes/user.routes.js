@@ -6,6 +6,8 @@ import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
 import { changeUserPassword } from "../controller/User/changeUserPassword.controller.js";
 import { updateUserProfile } from "../controller/User/updateUserProfile.controller.js";
 import { deleteAccount } from "../controller/User/deleteAccount.controller.js";
+import { validateRequest } from "../middleware/validateRequest.js";
+import { DeleteAccountSchema } from "../helper/validator/DeleteAccount.js";
 
 const router = Router();
 
@@ -36,6 +38,7 @@ router
 router
   .route("/delete-account/:id")
   .post(
+    validateRequest(DeleteAccountSchema),
     accessTokenAutoRefresh,
     passport.authenticate("jwt", { session: false }),
     deleteAccount
