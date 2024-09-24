@@ -53,4 +53,9 @@ app.use("/api/admin", adminRouter);
 import contactRoute from "./src/routes/contact.router.js";
 app.use("/api/contact", contactRoute);
 
+// testimonial routes
+
+import testimonialRoute from "./src/routes/testimonial.router.js";
+app.use("/api/testimonial", testimonialRoute);
+
 export { app };
