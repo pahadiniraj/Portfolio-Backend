@@ -5,7 +5,7 @@ import { asyncHandler } from "../../utils/AsyncHandler.js";
 const getAllTestimonial = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find().populate(
     "user",
-    "firstName lastName jobTitle"
+    "firstName lastName jobTitle avatar"
   );
   res
     .status(200)

@@ -8,6 +8,8 @@ import { updateUserProfile } from "../controller/User/updateUserProfile.controll
 import { deleteAccount } from "../controller/User/deleteAccount.controller.js";
 import { validateRequest } from "../middleware/validateRequest.js";
 import { DeleteAccountSchema } from "../helper/validator/DeleteAccount.js";
+import { upload } from "../middleware/multer.js";
+import { updateUserAvatar } from "../controller/User/updateAvatar.controller.js";
 
 const router = Router();
 
@@ -44,6 +46,13 @@ router
     deleteAccount
   );
 
-  
+router
+  .route("/update-user-avatar")
+  .post(
+    accessTokenAutoRefresh,
+    upload.single("avatar"),
+    passport.authenticate("jwt", { session: false }),
+    updateUserAvatar
+  );
 
 export default router;
