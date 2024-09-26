@@ -58,4 +58,7 @@ app.use("/api/contact", contactRoute);
 import testimonialRoute from "./src/routes/testimonial.router.js";
 app.use("/api/testimonial", testimonialRoute);
 
+import projectRoutes from "./src/routes/project.router.js";
+app.use("/api/projects", projectRoutes);
+
 export { app };

@@ -5,10 +5,12 @@ const projectSchema = new Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     description: {
       type: String,
       required: true,
+      trim: true,
     },
     features: {
       type: [String],
@@ -31,20 +33,11 @@ const projectSchema = new Schema(
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true,
     },
-    categories: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "Category",
-        required: true,
-        unique: true,
-      },
-    ],
-    likes: {
-      type: [mongoose.Types.ObjectId],
-      ref: "User",
-      default: [],
+    categories: {
+      type: String,
+      required: true,
+      unique: true,
     },
   },
   {
