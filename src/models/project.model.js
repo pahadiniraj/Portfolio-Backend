@@ -33,11 +33,11 @@ const projectSchema = new Schema(
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
+      required: true,
     },
-    categories: {
+    category: {
       type: String,
       required: true,
-      unique: true,
     },
   },
   {

@@ -31,12 +31,6 @@ export const projectSchema = Joi.object({
       "any.required": "Technologies are required.",
     }),
 
-  images: Joi.array().items(Joi.string().uri()).required().messages({
-    "array.base": "Images must be an array of valid URLs.",
-    "string.uri": "Each image must be a valid URL.",
-    "any.required": "Images are required.",
-  }),
-
   githubLink: Joi.string().uri().optional().messages({
     "string.uri": "GitHub link must be a valid URL.",
   }),
@@ -47,33 +41,20 @@ export const projectSchema = Joi.object({
 
   createdBy: Joi.string()
     .custom((value, helpers) => {
-      if (!mongoose.Types.ObjectId.isValid(value)) {
+      if (value && !mongoose.Types.ObjectId.isValid(value)) {
         return helpers.error("any.invalid");
       }
       return value;
     })
-    .required()
+    .optional()
     .messages({
       "any.invalid": "CreatedBy must be a valid ObjectId.",
-      "any.required": "CreatedBy is required.",
     }),
 
-  categories: Joi.array()
-    .items(
-      Joi.string()
-        .custom((value, helpers) => {
-          if (!mongoose.Types.ObjectId.isValid(value)) {
-            return helpers.error("any.invalid");
-          }
-          return value;
-        })
-        .required()
-    )
-    .required()
-    .messages({
-      "any.invalid": "Each category must be a valid ObjectId.",
-      "any.required": "Categories are required.",
-    }),
+  category: Joi.string().min(3).max(100).required().messages({
+    "string.base": "Category should be a string.",
+    "string.min": "Category should have at least 3 characters.",
+    "string.max": "Category should not exceed 100 characters.",
+    "any.required": "Category is required.",
+  }),
 });
-
-export { projectSchema };

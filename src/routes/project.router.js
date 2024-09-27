@@ -5,15 +5,23 @@ import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 import { createProject } from "../controller/Admin/Project/CreateProject.conteoller.js";
 import { upload } from "../middleware/multer.js";
+import { validateRequest } from "../middleware/validateRequest.js";
+import { projectSchema } from "../helper/validator/Project.js";
+import { getAllProjects } from "../controller/User/getAllProject.controller.js";
 
 const router = Router();
 
-router.route("/create-project").post(
-  accessTokenAutoRefresh,
-  upload.array("images"),
-  passport.authenticate("jwt", { session: false }),
-  // adminMiddleware,
-  createProject
-);
+router
+  .route("/create-project")
+  .post(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    upload.array("images"),
+    validateRequest(projectSchema),
+    adminMiddleware,
+    createProject
+  );
+
+router.route("/get-all-Projects").get(getAllProjects);
 
 export default router;

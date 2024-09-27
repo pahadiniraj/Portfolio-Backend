@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Project } from "../../../models/project.model.js";
 import { ApiError } from "../../../utils/ApiError.js";
 import { ApiResponse } from "../../../utils/ApiResponse.js";
@@ -5,16 +6,12 @@ import { asyncHandler } from "../../../utils/AsyncHandler.js";
 import { uploadOnCloudinary } from "../../../utils/cloudinary.js";
 
 const createProject = asyncHandler(async (req, res) => {
-  const files = req.files; // Get the uploaded files
+  const files = req.files;
 
-  // Check if at least one image is uploaded
   if (!files) {
     throw new ApiError(400, "At least one image file is required");
   }
 
-  console.log(files);
-
-  // Upload each image to Cloudinary and store URLs
   const imageUploadPromises = files.map((file) =>
     uploadOnCloudinary(file.path).then((result) => result.secure_url)
   );
@@ -27,15 +24,22 @@ const createProject = asyncHandler(async (req, res) => {
     technologies,
     githubLink,
     liveDemoLink,
-    categories,
+    category,
   } = req.body;
 
-  // Validate required fields
-  if (!title || !description || !features || !technologies || !categories) {
+  // Ensure all required fields are present
+  if (!title || !description || !features || !technologies || !category) {
     throw new ApiError(400, "All fields are required");
   }
 
-  // Create new project with uploaded image URLs
+  const createdBy = req.user._id;
+
+  // Optional: Validate createdBy to ensure it’s a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(createdBy)) {
+    throw new ApiError(400, "Invalid ObjectId for createdBy");
+  }
+
+  // Create the new project
   const newProject = await Project.create({
     title,
     description,
@@ -44,7 +48,8 @@ const createProject = asyncHandler(async (req, res) => {
     images: imageUrls, // Save array of image URLs
     githubLink,
     liveDemoLink,
-    categories,
+    category,
+    createdBy,
   });
 
   res
