@@ -10,14 +10,16 @@ import {
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
+  console.log(avatarLocalPath);
 
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is missing");
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
+  console.log(avatar);
 
-  if (!avatar.url) {
+  if (!avatar) {
     throw new ApiError(500, "Error occurred while uploading avatar");
   }
 
@@ -39,7 +41,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     req.user._id,
     {
       $set: {
-        avatar: avatar.url,
+        avatar: avatar,
       },
     },
     {

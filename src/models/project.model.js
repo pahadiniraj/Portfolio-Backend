@@ -20,9 +20,13 @@ const projectSchema = new Schema(
       type: [String],
       required: true,
     },
-    images: {
-      type: [String], // Array of image URLs
-      required: true,
+    image: {
+      type: String,
+      default: "",
+    },
+    thumbnail: {
+      type: String,
+      default: "",
     },
     githubLink: {
       type: String,
