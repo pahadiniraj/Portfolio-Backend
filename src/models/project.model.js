@@ -42,6 +42,13 @@ const projectSchema = new Schema(
     category: {
       type: String,
       required: true,
+      enum: [
+        "webdevelopment",
+        "graphicdesign",
+        "wordpress",
+        "digitalmarketing",
+        "music",
+      ],
     },
   },
   {
