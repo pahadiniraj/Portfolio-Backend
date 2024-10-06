@@ -7,6 +7,7 @@ import { upload } from "../middleware/multer.js";
 import { validateRequest } from "../middleware/validateRequest.js";
 import { projectSchema } from "../helper/validator/Project.js";
 import { getAllProjects } from "../controller/User/getAllProject.controller.js";
+import { GetProjectById } from "../controller/User/getProjectById.js";
 
 const router = Router();
 
@@ -22,7 +23,8 @@ router.route("/create-project").post(
   createProject
 );
 
+router.route("/get-project/:id").get(GetProjectById);
+
 router.route("/get-all-Projects").get(getAllProjects);
 
 export default router;
-
