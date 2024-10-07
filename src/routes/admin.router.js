@@ -9,6 +9,7 @@ import { getUsers } from "../controller/Admin/User/User.controller.js";
 import { DeleteAllUsers } from "../controller/Admin/User/DeleteAllUser.js";
 import { UpdateProject } from "../controller/Admin/Project/UpdateProject.controller.js";
 import { upload } from "../middleware/multer.js";
+import { DeleteProject } from "../controller/Admin/Project/DeleteProject.controller.js";
 
 const router = Router();
 
@@ -68,5 +69,14 @@ router.route("/update-project").post(
   ]),
   UpdateProject
 );
+
+router
+  .route("/delete-project")
+  .post(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    adminMiddleware,
+    DeleteProject
+  );
 
 export default router;
