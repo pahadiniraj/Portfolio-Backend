@@ -11,13 +11,11 @@ cloudinary.config({
 const uploadOnCloudinary = async (localFilePath, resize = false) => {
   try {
     if (!localFilePath) {
-      console.log("No file path provided");
-      return false;
+      throw new Error("Error uploading");
     }
 
     if (!fs.existsSync(localFilePath)) {
-      console.log(`File does not exist: ${localFilePath}`);
-      return false;
+      throw new Error("Error uploading");
     }
 
     const options = {
@@ -34,7 +32,6 @@ const uploadOnCloudinary = async (localFilePath, resize = false) => {
       ];
     }
 
-    // Upload the file to Cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, options);
 
     console.log(
@@ -42,7 +39,6 @@ const uploadOnCloudinary = async (localFilePath, resize = false) => {
       response.secure_url
     );
 
-    // Delete the file locally after successful upload
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
       console.log(`Local file deleted: ${localFilePath}`);
@@ -52,7 +48,6 @@ const uploadOnCloudinary = async (localFilePath, resize = false) => {
   } catch (error) {
     console.error("Error uploading file to Cloudinary:", error.message);
 
-    // Clean up the local file if an error occurred
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
       console.log(`Local file deleted after error: ${localFilePath}`);
@@ -62,7 +57,6 @@ const uploadOnCloudinary = async (localFilePath, resize = false) => {
   }
 };
 
-// Function to delete a file from Cloudinary
 const deleteFromCloudinary = async (publicId) => {
   try {
     console.log("Attempting to delete file with publicId:", publicId);
@@ -71,13 +65,11 @@ const deleteFromCloudinary = async (publicId) => {
 
     console.log("Cloudinary Deletion Response:", result);
 
-    // Check if the file is already deleted or not found
     if (result.result === "not found") {
       console.log(`File with publicId ${publicId} not found in Cloudinary`);
-      return; // No need to throw an error if it's already deleted
+      return;
     }
 
-    // If deletion was not successful for another reason, throw an error
     if (result.result !== "ok") {
       throw new ApiError(500, "Failed to delete avatar from Cloudinary");
     }
@@ -89,7 +81,6 @@ const deleteFromCloudinary = async (publicId) => {
   }
 };
 
-// Function to extract the public ID from a Cloudinary URL
 const extractPublicIdFromUrl = (url) => {
   try {
     const segments = url.split("/");

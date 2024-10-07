@@ -7,9 +7,6 @@ import { uploadOnCloudinary } from "../../../utils/cloudinary.js";
 
 const createProject = asyncHandler(async (req, res) => {
   const { thumbnail, image } = req.files;
-  console.log(req.body);
-  console.log(req.files);
-
   if (!thumbnail || !image) {
     throw new ApiError(400, "Thumbnail and image files are required");
   }

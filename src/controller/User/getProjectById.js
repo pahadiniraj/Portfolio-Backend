@@ -10,7 +10,10 @@ const GetProjectById = asyncHandler(async (req, res) => {
     throw new ApiError(400, "ID is required");
   }
 
-  const project = await Project.findById(id);
+  const project = await Project.findById(id).populate({
+    path: "createdBy",
+    select: "firstName lastName createdAt",
+  });
   if (!project) {
     throw new ApiError(400, "Project not found");
   }

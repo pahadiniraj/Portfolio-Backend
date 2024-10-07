@@ -7,6 +7,8 @@ import { UpdateContact } from "../controller/Admin/Contact/UpdateContact.control
 import { DeleteContact } from "../controller/Admin/Contact/DeleteContact.controller.js";
 import { getUsers } from "../controller/Admin/User/User.controller.js";
 import { DeleteAllUsers } from "../controller/Admin/User/DeleteAllUser.js";
+import { UpdateProject } from "../controller/Admin/Project/UpdateProject.controller.js";
+import { upload } from "../middleware/multer.js";
 
 const router = Router();
 
@@ -54,5 +56,17 @@ router
     adminMiddleware,
     DeleteAllUsers
   );
+
+router.route("/update-project").post(
+  accessTokenAutoRefresh,
+  passport.authenticate("jwt", { session: false }),
+  // validateRequest(projectSchema),
+  adminMiddleware,
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
+  UpdateProject
+);
 
 export default router;
