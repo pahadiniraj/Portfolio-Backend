@@ -31,6 +31,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       avatar: req.user.avatar,
       createdAt: req.user.createdAt,
       updatedAt: req.user.updatedAt,
+      role: req.user.role,
       instagram,
       twitter,
       linkedin,

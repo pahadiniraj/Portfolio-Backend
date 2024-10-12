@@ -42,7 +42,7 @@ const accessTokenAutoRefresh = async (req, res, next) => {
 
       const payload = {
         _id: user._id,
-        roles: user.roles,
+        role: user.role,
       };
 
       const newRefreshTokenExp = tokenDetails.exp;
@@ -59,8 +59,7 @@ const accessTokenAutoRefresh = async (req, res, next) => {
         newAccessTokenExp,
         oldRefreshToken,
         newRefreshTokenExp,
-        user.isVerified,
-        user.role
+        user.isVerified
       );
 
       req.headers["authorization"] = `Bearer ${newAccessToken}`;

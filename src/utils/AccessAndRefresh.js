@@ -6,7 +6,7 @@ const generateAccessAndRefreshToken = async (user) => {
   try {
     const payload = {
       _id: user._id,
-      roles: user.roles,
+      role: user.role,
     };
 
     const accessTokenExp = Math.floor(Date.now() / 1000) + 100;
@@ -56,6 +56,7 @@ const generateAccessAndRefreshToken = async (user) => {
       }).save();
     }
 
+    
     return Promise.resolve({
       accessToken,
       accessTokenExp,

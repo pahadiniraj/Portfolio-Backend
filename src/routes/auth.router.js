@@ -14,7 +14,6 @@ import {
   passwordResetEmailLinkSchema,
   passwordResetSchema,
 } from "../helper/validator/passwordReset.js";
-import generateOtpAndSendMail from "../controller/Email/generateOtp.controller.js";
 import { VerifyOtp } from "../controller/Auth/verifyOtp.controller.js";
 import { logoutUser } from "../controller/User/logoutUser.js";
 import accessTokenAutoRefresh from "../middleware/accessTokenAutoRefresh.js";
