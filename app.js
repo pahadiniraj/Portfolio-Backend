@@ -29,6 +29,11 @@ app.use(express.static("public"));
 
 checkAndDeleteUnverifiedUsers();
 
+//google auth
+import googleAuth from "./src/routes/google.router.js";
+
+app.use("", googleAuth);
+
 // User router
 
 import userRouter from "./src/routes/user.routes.js";

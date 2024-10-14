@@ -10,6 +10,7 @@ import { DeleteAllUsers } from "../controller/Admin/User/DeleteAllUser.js";
 import { UpdateProject } from "../controller/Admin/Project/UpdateProject.controller.js";
 import { upload } from "../middleware/multer.js";
 import { DeleteProject } from "../controller/Admin/Project/DeleteProject.controller.js";
+import { DeleteTestimonial } from "../controller/Admin/Testimonial/DeleteTestimonial.controller.js";
 
 const router = Router();
 
@@ -77,6 +78,15 @@ router
     passport.authenticate("jwt", { session: false }),
     adminMiddleware,
     DeleteProject
+  );
+
+router
+  .route("/delete-testimonial")
+  .delete(
+    accessTokenAutoRefresh,
+    passport.authenticate("jwt", { session: false }),
+    adminMiddleware,
+    DeleteTestimonial
   );
 
 export default router;

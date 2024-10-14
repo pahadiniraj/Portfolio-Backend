@@ -6,7 +6,6 @@ import {
   registerSchema,
 } from "../helper/validator/loginAndRegister.js";
 import { loginUser } from "../controller/Auth/Login.controller.js";
-import { googleLogin } from "../controller/Auth/GoogleOAuth.js";
 import { verifyOtpSchema } from "../helper/validator/OtpSchema.js";
 import { passwordResetEmail } from "../controller/Email/passwordResetEmail.controller.js";
 import { passwordReset } from "../controller/Email/passwordReset.controller.js";
@@ -24,10 +23,7 @@ const router = Router();
 router.route("/register").post(validateRequest(registerSchema), registerUser);
 router.route("/login").post(validateRequest(loginSchema), loginUser);
 
-// google authentication
-
-router.route("/google").get(googleLogin);
-
+// logout
 router
   .route("/logout")
   .post(

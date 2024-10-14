@@ -6,7 +6,7 @@ import { uploadOnCloudinary } from "../../utils/cloudinary.js";
 import generateOtpAndSendMail from "../Email/generateOtp.controller.js";
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   const existedUser = await User.findOne({
     email,

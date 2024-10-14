@@ -15,7 +15,7 @@ const VerifyOtp = asyncHandler(async (req, res) => {
   }
 
   // Find user by email
-  const userExist = await User.findOne({ email });
+  const userExist = await User.findOne({ email }).select("-password");
 
   // If user does not exist, throw error
   if (!userExist) {
