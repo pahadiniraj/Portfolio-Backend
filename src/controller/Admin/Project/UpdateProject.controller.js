@@ -61,8 +61,10 @@ const UpdateProject = asyncHandler(async (req, res) => {
   project.title = title || project.title;
   project.description = description || project.description;
   project.technologies = technologies || project.technologies;
-  project.githubLink = githubLink || project.githubLink;
-  project.liveDemoLink = liveDemoLink || project.liveDemoLink;
+  project.githubLink =
+    githubLink !== undefined ? githubLink : project.githubLink;
+  project.liveDemoLink =
+    liveDemoLink !== undefined ? liveDemoLink : project.liveDemoLink;
   project.features = features || project.features;
   project.category = category || project.category;
 

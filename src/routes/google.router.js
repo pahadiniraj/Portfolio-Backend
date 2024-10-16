@@ -25,7 +25,8 @@ router.route("/auth/google/callback").get(
       accessToken,
       accessTokenExp,
       refreshToken,
-      refreshTokenExp
+      refreshTokenExp,
+      user.isVerified
     );
     res.redirect(`${process.env.FRONTEND_HOST}/dashboard/setting`);
   }
