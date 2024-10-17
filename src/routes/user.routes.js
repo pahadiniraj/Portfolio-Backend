@@ -10,6 +10,7 @@ import { validateRequest } from "../middleware/validateRequest.js";
 import { DeleteAccountSchema } from "../helper/validator/DeleteAccount.js";
 import { upload } from "../middleware/multer.js";
 import { updateUserAvatar } from "../controller/User/updateAvatar.controller.js";
+import { getUserProfileById } from "../controller/User/getUserById.js";
 
 const router = Router();
 
@@ -54,5 +55,7 @@ router
     passport.authenticate("jwt", { session: false }),
     updateUserAvatar
   );
+
+router.route("/get-user/:id").get(getUserProfileById);
 
 export default router;
