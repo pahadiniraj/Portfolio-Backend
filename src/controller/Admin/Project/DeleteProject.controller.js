@@ -5,8 +5,6 @@ import { asyncHandler } from "../../../utils/AsyncHandler.js";
 
 const DeleteProject = asyncHandler(async (req, res) => {
   const { _id, id } = req.body;
-  console.log("id is comming", _id);
-  console.log("id is comming 2", id);
 
   if (!_id) {
     throw new ApiError("Project ID is required");
