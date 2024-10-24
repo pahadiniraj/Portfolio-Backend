@@ -1,5 +1,5 @@
 import { Router } from "express";
-import "../utils/googleConfig.cjs";
+import "../utils/googleConfig.js";
 import passport from "passport";
 import setTokenCookies from "../utils/setTokenCookies.js";
 
