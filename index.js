@@ -20,3 +20,5 @@ connectDB().then(() => {
     res.send("Hello, World i'm Niraj!");
   });
 });
+
+export default app;
