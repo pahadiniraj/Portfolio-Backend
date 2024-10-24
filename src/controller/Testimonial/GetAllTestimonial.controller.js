@@ -2,7 +2,7 @@ import { Testimonial } from "../../models/testimonial.model.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/AsyncHandler.js";
 
-const getAllTestimonial = asyncHandler(async (req, res) => {
+export const getAllTestimonial = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find().populate(
     "user",
     "firstName lastName jobTitle avatar"
@@ -14,4 +14,4 @@ const getAllTestimonial = asyncHandler(async (req, res) => {
     );
 });
 
-export { getAllTestimonial };
+
