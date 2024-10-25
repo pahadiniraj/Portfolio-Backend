@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backed for my portfolio website ",
-  "main": "index.mjs",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.mjs"
+    "start": "nodemon index.js"
   },
   "author": "Niraj Pahadi",
   "license": "ISC",
