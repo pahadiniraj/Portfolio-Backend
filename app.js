@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CROSS_ORIGIN, // Replace with your frontend URL
+    origin: "https://nirajpahadi.com.np",
   })
 );
 app.use(express.json({ limit: "16kb" }));
