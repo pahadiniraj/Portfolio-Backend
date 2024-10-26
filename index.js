@@ -3,9 +3,7 @@ import connectDB from "./src/db/index.js";
 import app from "./app.js"; // Import the default export directly
 
 // Load environment variables from .env file
-dotenv.config({
-  path: "./.env",
-});
+dotenv.config();
 
 // Connect to MongoDB
 connectDB()

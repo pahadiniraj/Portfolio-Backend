@@ -7,9 +7,7 @@ import checkAndDeleteUnverifiedUsers from "./src/utils/cornJob.js"; // Ensure th
 
 const app = express();
 
-dotenv.config({
-  path: "./.env",
-});
+dotenv.config();
 
 // Middleware
 app.use(cookieParser());
