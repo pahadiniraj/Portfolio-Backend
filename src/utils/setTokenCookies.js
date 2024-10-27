@@ -22,21 +22,21 @@ const setTokenCookies = (
     httpOnly: true,
     secure: true,
     maxAge: accessTokenMaxAge,
-    sameSite: "Lax",
+    sameSite: "None",
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     maxAge: refreshTokenMaxAge,
-    sameSite: "Lax",
+    sameSite: "None",
   });
 
   res.cookie("isVerified", isVerified, {
     httpOnly: false,
     secure: true,
     maxAge: refreshTokenMaxAge,
-    sameSite: "Lax",
+    sameSite: "None",
   });
 };
 

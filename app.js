@@ -33,7 +33,7 @@ import contactRoute from "./src/routes/contact.router.js";
 import testimonialRoute from "./src/routes/testimonial.router.js";
 import projectRoutes from "./src/routes/project.router.js";
 
-app.use("/", googleAuth);
+app.use("", googleAuth);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
