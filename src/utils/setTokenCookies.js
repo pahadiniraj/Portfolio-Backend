@@ -20,23 +20,23 @@ const setTokenCookies = (
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
     maxAge: accessTokenMaxAge,
-    sameSite: "None",
+    sameSite: "Lax",
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
-    sameSite: "None",
+    sameSite: "Lax",
   });
 
   res.cookie("isVerified", isVerified, {
     httpOnly: false,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
-    sameSite: "None",
+    sameSite: "Lax",
   });
 };
 
