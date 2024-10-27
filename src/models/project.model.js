@@ -45,8 +45,7 @@ const projectSchema = new Schema(
       enum: [
         "webdevelopment",
         "graphicdesign",
-        "wordpress",
-        "digitalmarketing",
+        "appdevelopment",
         "music",
       ],
     },
