@@ -23,7 +23,7 @@ const setTokenCookies = (
     secure: process.env.NODE_ENV === "production",
     maxAge: accessTokenMaxAge,
     sameSite: "none",
-    domain: "portfolio-backend-beige-chi.vercel.app",
+    domain: "localhost",
   });
 
   res.cookie("refreshToken", refreshToken, {
@@ -31,7 +31,7 @@ const setTokenCookies = (
     secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
     sameSite: "none",
-    domain: "portfolio-backend-beige-chi.vercel.app",
+    domain: "localhost",
   });
 
   res.cookie("isVerified", isVerified, {
@@ -39,7 +39,7 @@ const setTokenCookies = (
     secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
     sameSite: "none",
-    domain: "portfolio-backend-beige-chi.vercel.app",
+    domain: "localhost",
   });
 };
 
