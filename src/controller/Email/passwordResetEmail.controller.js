@@ -139,7 +139,7 @@ const passwordResetEmail = asyncHandler(async (req, res) => {
             <div class="logo-container">
               <!-- Logo Section -->
               <img
-                src="https://res.cloudinary.com/pahadi123/image/upload/v1725682581/Niraj-01_l5eup0.png"
+                src="https://res.cloudinary.com/pahadi123/image/upload/v1730053658/logo_lrtyoe.png"
                 alt="Niraj's Logo"
                 class="logo"
               />
