@@ -22,21 +22,21 @@ const setTokenCookies = (
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     maxAge: accessTokenMaxAge,
-    sameSite: "Lax",
+    sameSite: "none",
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
-    sameSite: "Lax",
+    sameSite: "none",
   });
 
   res.cookie("isVerified", isVerified, {
     httpOnly: false,
     // secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
-    sameSite: "Lax",
+    sameSite: "none",
   });
 };
 
