@@ -9,11 +9,7 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (fileBuffer, resize = false) => {
-  try {
-    if (!fileBuffer) {
-      throw new ApiError(400, "Error uploading: No file buffer provided.");
-    }
-
+  return new Promise((resolve, reject) => {
     const options = {
       resource_type: "auto",
     };
@@ -28,47 +24,41 @@ const uploadOnCloudinary = async (fileBuffer, resize = false) => {
       ];
     }
 
-    const response = await cloudinary.uploader.upload_stream(
+    const uploadStream = cloudinary.uploader.upload_stream(
       options,
       (error, result) => {
-        if (error)
-          throw new ApiError(500, "Cloudinary upload error: " + error.message);
-        return result;
+        if (error) {
+          console.error("Cloudinary upload error:", error.message);
+          reject(
+            new ApiError(500, "Cloudinary upload error: " + error.message)
+          );
+        } else {
+          console.log(
+            "File uploaded successfully to Cloudinary:",
+            result.secure_url
+          );
+          resolve(result.secure_url);
+        }
       }
     );
 
-    console.log(
-      "File uploaded successfully to Cloudinary:",
-      response.secure_url
-    );
-    return response.secure_url;
-  } catch (error) {
-    console.error("Error uploading file to Cloudinary:", error.message);
-    throw new ApiError(500, "Error occurred while uploading avatar");
-  }
+    uploadStream.end(fileBuffer); // Send the file buffer to Cloudinary
+  });
 };
 
 const deleteFromCloudinary = async (publicId) => {
   try {
-    console.log("Attempting to delete file with publicId:", publicId);
-
     const result = await cloudinary.uploader.destroy(publicId);
-
-    console.log("Cloudinary Deletion Response:", result);
-
-    if (result.result === "not found") {
-      console.log(`File with publicId ${publicId} not found in Cloudinary`);
-      return;
-    }
-
     if (result.result !== "ok") {
-      throw new ApiError(500, "Failed to delete avatar from Cloudinary");
+      throw new ApiError(500, "Failed to delete file from Cloudinary");
     }
-
     console.log("File deleted successfully from Cloudinary");
   } catch (error) {
     console.error("Error deleting file from Cloudinary:", error.message);
-    throw new ApiError(500, "Error occurred while deleting previous avatar");
+    throw new ApiError(
+      500,
+      "Error occurred while deleting file from Cloudinary"
+    );
   }
 };
 
