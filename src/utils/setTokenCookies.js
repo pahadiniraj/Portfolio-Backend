@@ -23,7 +23,6 @@ const setTokenCookies = (
     secure: process.env.NODE_ENV === "production",
     maxAge: accessTokenMaxAge,
     sameSite: "none",
-    domain: "localhost",
   });
 
   res.cookie("refreshToken", refreshToken, {
@@ -31,7 +30,6 @@ const setTokenCookies = (
     secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
     sameSite: "none",
-    domain: "localhost",
   });
 
   res.cookie("isVerified", isVerified, {
@@ -39,7 +37,6 @@ const setTokenCookies = (
     secure: process.env.NODE_ENV === "production",
     maxAge: refreshTokenMaxAge,
     sameSite: "none",
-    domain: "localhost",
   });
 };
 
