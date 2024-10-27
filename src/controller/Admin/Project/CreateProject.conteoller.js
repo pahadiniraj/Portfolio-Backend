@@ -11,9 +11,9 @@ const createProject = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Thumbnail and image files are required");
   }
 
-  const imageUrl = await uploadOnCloudinary(image[0].path);
+  const imageUrl = await uploadOnCloudinary(image[0].buffer);
 
-  const thumbnailUrl = await uploadOnCloudinary(thumbnail[0].path, true);
+  const thumbnailUrl = await uploadOnCloudinary(thumbnail[0].buffer, true);
 
   const {
     title,
