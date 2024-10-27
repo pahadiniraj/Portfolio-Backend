@@ -1,3 +1,4 @@
+// updateUserAvatar.js
 import { User } from "../../models/user.model.js";
 import { ApiError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
@@ -9,16 +10,14 @@ import {
 } from "../../utils/cloudinary.js";
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  const avatarLocalPath = req.file?.path;
-  console.log(avatarLocalPath);
+  const avatarBuffer = req.file?.buffer;
 
-  if (!avatarLocalPath) {
+  if (!avatarBuffer) {
     throw new ApiError(400, "Avatar file is missing");
   }
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
-  console.log(avatar);
-
+  // Upload avatar using buffer
+  const avatar = await uploadOnCloudinary(avatarBuffer);
   if (!avatar) {
     throw new ApiError(500, "Error occurred while uploading avatar");
   }
@@ -32,21 +31,15 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 
   // Check if there is a previous avatar and delete it
   if (user.avatar) {
-    const publicId = extractPublicIdFromUrl(user.avatar); // Extract the public ID from the URL
-    await deleteFromCloudinary(publicId); // Delete the previous avatar
+    const publicId = extractPublicIdFromUrl(user.avatar);
+    await deleteFromCloudinary(publicId);
   }
 
   // Update user with the new avatar URL
   const updatedUser = await User.findByIdAndUpdate(
     req.user._id,
-    {
-      $set: {
-        avatar: avatar,
-      },
-    },
-    {
-      new: true,
-    }
+    { $set: { avatar } },
+    { new: true }
   ).select("-password");
 
   return res

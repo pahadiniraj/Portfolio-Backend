@@ -1,4 +1,4 @@
-import fs from "fs";
+// cloudinary.js
 import { v2 as cloudinary } from "cloudinary";
 import { ApiError } from "./ApiError.js";
 
@@ -8,14 +8,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadOnCloudinary = async (localFilePath, resize = false) => {
+const uploadOnCloudinary = async (fileBuffer, resize = false) => {
   try {
-    if (!localFilePath) {
-      throw new Error("Error uploading");
-    }
-
-    if (!fs.existsSync(localFilePath)) {
-      throw new Error("Error uploading");
+    if (!fileBuffer) {
+      throw new ApiError(400, "Error uploading: No file buffer provided.");
     }
 
     const options = {
@@ -32,28 +28,23 @@ const uploadOnCloudinary = async (localFilePath, resize = false) => {
       ];
     }
 
-    const response = await cloudinary.uploader.upload(localFilePath, options);
+    const response = await cloudinary.uploader.upload_stream(
+      options,
+      (error, result) => {
+        if (error)
+          throw new ApiError(500, "Cloudinary upload error: " + error.message);
+        return result;
+      }
+    );
 
     console.log(
       "File uploaded successfully to Cloudinary:",
       response.secure_url
     );
-
-    if (fs.existsSync(localFilePath)) {
-      fs.unlinkSync(localFilePath);
-      console.log(`Local file deleted: ${localFilePath}`);
-    }
-
     return response.secure_url;
   } catch (error) {
     console.error("Error uploading file to Cloudinary:", error.message);
-
-    if (fs.existsSync(localFilePath)) {
-      fs.unlinkSync(localFilePath);
-      console.log(`Local file deleted after error: ${localFilePath}`);
-    }
-
-    return null;
+    throw new ApiError(500, "Error occurred while uploading avatar");
   }
 };
 
