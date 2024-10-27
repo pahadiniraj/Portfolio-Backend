@@ -34,7 +34,7 @@ const createContact = asyncHandler(async (req, res) => {
     subject,
   });
 
-  transporter.sendMail({
+  await transporter.sendMail({
     from: process.env.EMAIL_FROM,
     to: newContact.email,
     subject: `${newContact.subject}`,
