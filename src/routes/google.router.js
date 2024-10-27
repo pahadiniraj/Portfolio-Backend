@@ -18,8 +18,6 @@ router.route("/auth/google/callback").get(
     failureRedirect: `${process.env.FRONTEND_HOST}/login`,
   }),
   (req, res) => {
-    console.log("hey");
-
     const { user, accessToken, refreshToken, accessTokenExp, refreshTokenExp } =
       req.user;
     setTokenCookies(
