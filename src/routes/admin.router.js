@@ -82,13 +82,11 @@ router
 
 router
   .route("/delete-testimonial")
-  .delete(
+  .post(
     accessTokenAutoRefresh,
     passport.authenticate("jwt", { session: false }),
     adminMiddleware,
     DeleteTestimonial
   );
-
-  
 
 export default router;
