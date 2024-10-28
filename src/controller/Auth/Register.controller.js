@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImage: coverImageUrl || "",
   });
 
-  generateOtpAndSendMail(req, user);
+  await generateOtpAndSendMail(req, user);
 
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
@@ -62,7 +62,8 @@ const registerUser = asyncHandler(async (req, res) => {
   res.cookie("email", user.email, {
     httpOnly: true,
     maxAge: 15 * 60 * 1000,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
+    sameSite: "none",
   });
 
   return res
